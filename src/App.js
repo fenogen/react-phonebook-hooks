@@ -1,6 +1,6 @@
 import React, { Suspense, lazy, useEffect } from 'react';
 import { Switch } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import route from './routes/routes';
 import PrivateRoute from './routes/PrivateRoute';
@@ -27,11 +27,14 @@ const ContactsPage = lazy(() =>
 );
 
 
-function App({ isAuthorized, disGetAllContacts }) {
+export default function App() {
+
+  const isAuthorized = useSelector(selAuthorization);
+  const dispatch = useDispatch();
   
   useEffect(() => {
     if (isAuthorized) {
-      disGetAllContacts();
+      dispatch(getAllContacts());
     }
   }
   )
@@ -74,13 +77,4 @@ function App({ isAuthorized, disGetAllContacts }) {
     );
   }
 
-const mapStateToProps = (state) => ({
-  isAuthorized: selAuthorization(state),
-})
 
-const mapDispatchToProps = dispatch => ({
-  disGetAllContacts: () => dispatch(getAllContacts()),
-});
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);

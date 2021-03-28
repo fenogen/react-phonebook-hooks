@@ -1,18 +1,25 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch} from 'react-redux';
 import { DebounceInput } from 'react-debounce-input';
 import PropTypes from 'prop-types';
 
 import { searchContact } from '../../../api/operations-get';
-import { selFilterValue } from '../../../redux/phonebook/selectors';
+// import { selFilterValue } from '../../../redux/phonebook/selectors';
 
 import style from '../Form/Form.module.css';
 
-function Filter({ disFnFilterValue }) {
+// const mapStateToProps = state => ({
+//   filterValue: selFilterValue(state),
+// });
+
+export default function Filter() {
+  const dispatch = useDispatch();
+
+
   const fnFilterTarget = event => {
     const input = event.target;
     const value = input.value;
-    disFnFilterValue(value);
+    dispatch(searchContact(value));
   };
   // console.log('Filter')
 
@@ -45,13 +52,3 @@ Filter.propTypes = {
   filterValue: PropTypes.string,
   fnFilterTarget: PropTypes.func,
 };
-
-const mapStateToProps = state => ({
-  filterValue: selFilterValue(state),
-});
-
-const mapDispatchToProps = dispatch => ({
-  disFnFilterValue: value => dispatch(searchContact(value)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Filter);

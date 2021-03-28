@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import avatar from './../../../img/avatar9.png';
 
 import {
@@ -9,7 +9,10 @@ import {
 
 import style from './../Navigation/Navigation.module.css';
 
-function UserMenu({ user, isAuthorized }) {
+export default function UserMenu() {
+  const user = useSelector(selUser);
+  const isAuthorized = useSelector(selAuthorization);
+
   if (isAuthorized) {
     return (
       <div className={style.flex}>
@@ -20,10 +23,3 @@ function UserMenu({ user, isAuthorized }) {
     );
   }
 }
-
-const mapStateToProps = state => ({
-  user: selUser(state),
-  isAuthorized: selAuthorization(state),
-});
-
-export default connect(mapStateToProps)(UserMenu);

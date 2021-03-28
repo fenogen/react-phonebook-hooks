@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Loader from 'react-loader-spinner';
 
 import { loginUser } from './../../api/operation-register';
@@ -8,10 +8,14 @@ import { selLoadingStatus } from './../../redux/phonebook/selectors';
 import style from './../../components/Phonebook/Form/Form.module.css';
 import './../../App.css';
 
-function LoginPage({ loading, disFnLogin }) {
+
+export default function LoginPage() {
   // -----------------------------> State
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const loading = useSelector(selLoadingStatus);
+  const dispatch = useDispatch();
 
   // ----------------------------> Ф-я записи значений инпута в State
   const fnInputTargetEmail = event => {
@@ -30,7 +34,7 @@ function LoginPage({ loading, disFnLogin }) {
     user.email = email;
     user.password = password;
 
-    disFnLogin(user);
+    dispatch(loginUser(user));
     setEmail('');
     setPassword(''); //---> сбросили значение в Инпуте
   };
@@ -87,12 +91,3 @@ function LoginPage({ loading, disFnLogin }) {
   );
 }
 
-const mapStateToProps = state => ({
-  loading: selLoadingStatus(state),
-});
-
-const mapDispatchToProps = dispatch => ({
-  disFnLogin: value => dispatch(loginUser(value)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

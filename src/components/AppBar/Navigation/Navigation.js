@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import route from '../../../routes/routes';
 
@@ -11,7 +11,11 @@ import UserMenu from '../UserMenu/UserMenu';
 
 import style from './Navigation.module.css';
 
-function Navigation({ isAuthorized, disLogout}) {
+
+export default function Navigation() {
+  const isAuthorized = useSelector(selAuthorization);
+  const dispatch = useDispatch();
+  
   return (
     <nav className={style.flexbox}>
       <NavLink
@@ -51,7 +55,7 @@ function Navigation({ isAuthorized, disLogout}) {
             // className={style.navLink}
             className={style.newForm__submit}
             activeClassName={style.navLink__active}
-            onClick={() => disLogout()}
+            onClick={() => dispatch(logout())}
           >
             Logout
           </NavLink>
@@ -61,12 +65,3 @@ function Navigation({ isAuthorized, disLogout}) {
   );
 }
 
-const mapStateToProps = state => ({
-  isAuthorized: selAuthorization(state),
-});
-
-const mapDispatchToProps = dispatch => ({
-  disLogout: () => dispatch(logout()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Navigation);

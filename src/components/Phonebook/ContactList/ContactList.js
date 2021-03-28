@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Loader from 'react-loader-spinner';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
@@ -13,8 +13,16 @@ import {
 
 import ContactItem from './ContactItem';
 
+export default function ContactList() {
+  // selRenderFilter ---> Для правильного рендера фильтрованного и не фильтрованого списка
+  const contacts = useSelector(selRenderFilter); 
+  const loading = useSelector(selLoadingStatus);
+  const dispatch = useDispatch();
 
-function ContactList({ contacts, loading, disFnDeleteItem }) {
+  const disFnDeleteItem = (id) => {
+    dispatch(deleteContact(id))
+  }
+
   // ---> Условие что бы не было рендера при пустом массиве когда запущен филтр поиска
   if (contacts.length === 0) {
     return null;
@@ -56,16 +64,3 @@ ContactList.propTypes = {
   contacts: PropTypes.array,
   fnRemove: PropTypes.func,
 };
-
-// selRenderFilter ---> Для правильного рендера фильтрованного и не фильтрованого списка
-
-const mapStateToProps = state => ({
-  contacts: selRenderFilter(state),
-  loading: selLoadingStatus(state),
-});
-
-const mapDispatchToProps = dispatch => ({
-  disFnDeleteItem: value => dispatch(deleteContact(value)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ContactList);

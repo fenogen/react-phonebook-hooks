@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { addContact } from '../../../api/operations-get';
-import { getAllContacts} from '../../../api/operation-register';
-import { selContacts, selAuthorization } from '../../../redux/phonebook/selectors';
+import { selContacts } from '../../../redux/phonebook/selectors';
 
 import style from './Form.module.css';
 
-function Form({contacts, disFnSubmit}) {
+
+export default function Form() {
 
   // -----------------------------> State
   const [name, setName] = useState('');
   const [number, setNumber] = useState('')
 
+  const contacts = useSelector(selContacts);
+  const dispatch = useDispatch();
 
   // ----------------------------> Ф-я записи значений инпута в State
 
@@ -50,7 +52,7 @@ function Form({contacts, disFnSubmit}) {
    contact.number = number;
 
    if (!arrayOfNames.includes(name.toLowerCase())) {
-      disFnSubmit(contact)
+      dispatch(addContact(contact))
       //---> сбросили значение в Инпуте
      setName('');
      setNumber('')
@@ -91,14 +93,3 @@ function Form({contacts, disFnSubmit}) {
     );
   }
 
-const mapStateToProps = state => ({
-  contacts: selContacts(state),
-  isAuthorized: selAuthorization(state),
-});
-
-const mapDispatchToProps = dispatch => ({
-  disFnSubmit: value => dispatch(addContact(value)),
-  disGetAllContacts: () => dispatch(getAllContacts()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Form);
