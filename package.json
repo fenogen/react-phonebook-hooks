@@ -1,0 +1,59 @@
+{
+  "name": "phonebook",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.5.0",
+    "@testing-library/jest-dom": "^5.11.9",
+    "@testing-library/react": "^11.2.5",
+    "@testing-library/user-event": "^12.7.3",
+    "axios": "^0.21.1",
+    "gh-pages": "^3.1.0",
+    "install": "^0.13.0",
+    "modern-normalize": "^1.0.0",
+    "npm": "^7.6.3",
+    "react": "^17.0.1",
+    "react-debounce-input": "^3.2.3",
+    "react-dom": "^17.0.1",
+    "react-loader-spinner": "^4.0.0",
+    "react-redux": "^7.2.2",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.3",
+    "redux": "^4.0.5",
+    "redux-devtools-extension": "^2.13.9",
+    "redux-persist": "^6.0.0",
+    "web-vitals": "^1.1.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "netlify deploy -p",
+    "api": "json-server --watch db.json --delay 300 --port 4040"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "husky": "^5.1.1",
+    "lint-staged": "^10.5.4",
+    "prettier": "^2.2.1"
+  }
+}
