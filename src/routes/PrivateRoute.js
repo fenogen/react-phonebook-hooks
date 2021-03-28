@@ -1,28 +1,19 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Redirect, Route } from 'react-router';
 import { selAuthorization} from './../redux/phonebook/selectors'
 
-const PrivateRoute = ({
-  component: Component,
-  isAuthorized,
+export default function PrivateRoute({
+  // isAuthorized,
   redirectTo,
+  children,
   ...routeProps
-}) => (
-  <Route
-    {...routeProps}
-    render={ props =>
-      isAuthorized ? (
-        <Component {...routeProps} />
-      ) : (
-        <Redirect to={redirectTo} />
-      )
-    }
-  />
-);
-
-const mapStateToProps = state => ({
-  isAuthorized: selAuthorization(state),
-});
-
-export default connect(mapStateToProps)(PrivateRoute);
+}) {
+  const isAuthorized = useSelector(selAuthorization);
+  return (
+    <Route {...routeProps}>
+      {isAuthorized ? (children) : (<Redirect to={redirectTo} />)
+  }
+  </Route>
+  )
+}
